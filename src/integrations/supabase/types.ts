@@ -460,7 +460,7 @@ export type Database = {
             foreignKeyName: "locations_vehicules_client_id_fkey"
             columns: ["client_id"]
             isOneToOne: false
-            referencedRelation: "insurance_clients"
+            referencedRelation: "clients_by_sector"
             referencedColumns: ["id"]
           },
           {
@@ -626,7 +626,7 @@ export type Database = {
             foreignKeyName: "payments_client_id_fkey"
             columns: ["client_id"]
             isOneToOne: false
-            referencedRelation: "insurance_clients"
+            referencedRelation: "clients_by_sector"
             referencedColumns: ["id"]
           },
           {
@@ -823,7 +823,7 @@ export type Database = {
             foreignKeyName: "reservations_hotels_client_id_fkey"
             columns: ["client_id"]
             isOneToOne: false
-            referencedRelation: "insurance_clients"
+            referencedRelation: "clients_by_sector"
             referencedColumns: ["id"]
           },
           {
@@ -912,7 +912,7 @@ export type Database = {
             foreignKeyName: "reservations_vols_client_id_fkey"
             columns: ["client_id"]
             isOneToOne: false
-            referencedRelation: "insurance_clients"
+            referencedRelation: "clients_by_sector"
             referencedColumns: ["id"]
           },
           {
@@ -1027,152 +1027,73 @@ export type Database = {
     Views: {
       clients_by_sector: {
         Row: {
-          clients_actifs: number | null
-          clients_inactifs: number | null
-          clients_suspendus: number | null
-          nombre_clients: number | null
-          secteur: string | null
-        }
-        Relationships: []
-      }
-      insurance_clients: {
-        Row: {
-          adresse: string | null
-          created_at: string | null
           email: string | null
           id: string | null
-          nationalite: string | null
           nom: string | null
-          numero_permis: string | null
-          preferences: string | null
           prenom: string | null
-          telephone: string | null
-          type_client: string | null
-          updated_at: string | null
-          ville: string | null
+          secteurs: string[] | null
         }
         Insert: {
-          adresse?: string | null
-          created_at?: string | null
           email?: string | null
           id?: string | null
-          nationalite?: string | null
           nom?: string | null
-          numero_permis?: string | null
-          preferences?: string | null
           prenom?: string | null
-          telephone?: string | null
-          type_client?: string | null
-          updated_at?: string | null
-          ville?: string | null
+          secteurs?: string[] | null
         }
         Update: {
-          adresse?: string | null
-          created_at?: string | null
           email?: string | null
           id?: string | null
-          nationalite?: string | null
           nom?: string | null
-          numero_permis?: string | null
-          preferences?: string | null
           prenom?: string | null
-          telephone?: string | null
-          type_client?: string | null
-          updated_at?: string | null
-          ville?: string | null
+          secteurs?: string[] | null
         }
         Relationships: []
       }
       property_clients: {
         Row: {
-          adresse: string | null
-          created_at: string | null
-          date_naissance: string | null
           email: string | null
           id: string | null
           nom: string | null
           prenom: string | null
-          profession: string | null
-          statut: Database["public"]["Enums"]["statut_client"] | null
-          telephone: string | null
-          updated_at: string | null
-          ville: string | null
+          secteurs: string[] | null
         }
         Insert: {
-          adresse?: string | null
-          created_at?: string | null
-          date_naissance?: string | null
           email?: string | null
           id?: string | null
           nom?: string | null
           prenom?: string | null
-          profession?: string | null
-          statut?: Database["public"]["Enums"]["statut_client"] | null
-          telephone?: string | null
-          updated_at?: string | null
-          ville?: string | null
+          secteurs?: string[] | null
         }
         Update: {
-          adresse?: string | null
-          created_at?: string | null
-          date_naissance?: string | null
           email?: string | null
           id?: string | null
           nom?: string | null
           prenom?: string | null
-          profession?: string | null
-          statut?: Database["public"]["Enums"]["statut_client"] | null
-          telephone?: string | null
-          updated_at?: string | null
-          ville?: string | null
+          secteurs?: string[] | null
         }
         Relationships: []
       }
       travel_clients: {
         Row: {
-          adresse: string | null
-          created_at: string | null
           email: string | null
           id: string | null
-          nationalite: string | null
           nom: string | null
-          numero_passeport: string | null
-          preferences: string | null
           prenom: string | null
-          telephone: string | null
-          type_voyageur: string | null
-          updated_at: string | null
-          ville: string | null
+          secteurs: string[] | null
         }
         Insert: {
-          adresse?: string | null
-          created_at?: string | null
           email?: string | null
           id?: string | null
-          nationalite?: string | null
           nom?: string | null
-          numero_passeport?: string | null
-          preferences?: string | null
           prenom?: string | null
-          telephone?: string | null
-          type_voyageur?: string | null
-          updated_at?: string | null
-          ville?: string | null
+          secteurs?: string[] | null
         }
         Update: {
-          adresse?: string | null
-          created_at?: string | null
           email?: string | null
           id?: string | null
-          nationalite?: string | null
           nom?: string | null
-          numero_passeport?: string | null
-          preferences?: string | null
           prenom?: string | null
-          telephone?: string | null
-          type_voyageur?: string | null
-          updated_at?: string | null
-          ville?: string | null
+          secteurs?: string[] | null
         }
         Relationships: []
       }
