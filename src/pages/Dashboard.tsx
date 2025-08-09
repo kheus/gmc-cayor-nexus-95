@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react"
 import { useGMCData } from "@/hooks/useGMCData"
 import { useFinancialAnalytics } from '@/hooks/useFinancialAnalytics'
 import { useDataSync } from "@/hooks/useDataSync"
@@ -36,10 +37,38 @@ export default function Dashboard() {
     propertyClients, 
     propertyPayments,
     getImmobilierPerformance,
-    financialSummary
+    financialSummary,
+    loading: gmcLoading,
+    lastSync: gmcLastSync,
+    isStale: gmcIsStale
   } = useGMCData()
 
   const immobilierMetrics = getImmobilierPerformance()
+  
+  // État de synchronisation unifié
+  const { 
+    clients: realClients, 
+    loading: dataLoading, 
+    lastSync: dataLastSync,
+    isStale: dataIsStale 
+  } = useDataSync()
+  
+  // Vérification globale de synchronisation
+  const isSyncing = gmcLoading || dataLoading
+  const lastGlobalSync = gmcLastSync && dataLastSync 
+    ? new Date(Math.max(gmcLastSync.getTime(), dataLastSync.getTime()))
+    : gmcLastSync || dataLastSync
+  const isDataStale = gmcIsStale || dataIsStale
+  
+  // État temps réel
+  const [currentTime, setCurrentTime] = useState(new Date())
+  
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date())
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [])
 
   // Données unifiées tous secteurs
   const allSectorsRevenue = {
@@ -53,9 +82,6 @@ export default function Dashboard() {
   // Utiliser les données financières réelles ou calculées
   const { monthlyData, getSectorDistribution } = useFinancialAnalytics()
   const sectorDistribution = getSectorDistribution(allSectorsRevenue)
-
-  // Utiliser les vrais clients depuis useDataSync au lieu des données fictives
-  const { clients: realClients } = useDataSync()
   
   const sectorMetrics = {
     immobilier: {
@@ -224,8 +250,27 @@ export default function Dashboard() {
         <div className="flex items-center gap-3">
           <Badge variant="outline" className="gap-2">
             <Calendar className="h-4 w-4" />
-            {currentMonth}
+            {currentTime.toLocaleDateString('fr-FR')} {currentTime.toLocaleTimeString('fr-FR')}
           </Badge>
+          
+          {/* Indicateur de synchronisation */}
+          <Badge 
+            variant={isSyncing ? "default" : isDataStale ? "destructive" : "secondary"} 
+            className="gap-2"
+          >
+            <Activity className={`h-4 w-4 ${isSyncing ? 'animate-pulse' : ''}`} />
+            {isSyncing ? 'Synchronisation...' : 
+             isDataStale ? 'Données obsolètes' : 
+             'Synchronisé'}
+          </Badge>
+          
+          {lastGlobalSync && (
+            <Badge variant="outline" className="gap-2 text-xs">
+              <Clock className="h-3 w-3" />
+              Dernière sync: {lastGlobalSync.toLocaleTimeString('fr-FR')}
+            </Badge>
+          )}
+          
           <Badge variant="outline" className="gap-2">
             <BarChart3 className="h-4 w-4" />
             Métriques Globales
