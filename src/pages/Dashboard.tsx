@@ -111,8 +111,8 @@ export default function Dashboard() {
     { name: 'Assurance', value: sectorMetrics.assurance.clients, growth: sectorMetrics.assurance.croissance }
   ]
 
-  // Données pour le résumé exécutif
-  const currentMonth = "Juin 2024"
+  // Données pour le résumé exécutif - utiliser données temps réel
+  const currentMonth = currentTime.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
   const monthlyTarget = 9000000
   const revenueGrowth = 15.3
   const clientGrowth = Math.floor(totalClients * 0.12)
@@ -278,7 +278,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Résumé Exécutif */}
+      {/* Résumé Exécutif avec indicateurs de sync */}
       <ExecutiveSummary
         totalRevenue={totalRevenue}
         revenueGrowth={revenueGrowth}
@@ -287,6 +287,8 @@ export default function Dashboard() {
         monthlyTarget={monthlyTarget}
         targetProgress={targetProgress}
         currentMonth={currentMonth}
+        isLoading={isSyncing}
+        lastSync={lastGlobalSync}
       />
 
       {/* Indicateurs de Performance */}
@@ -295,8 +297,13 @@ export default function Dashboard() {
       {/* Alertes et Insights */}
       <AlertsAndInsights alerts={alerts} insights={insights} />
 
-      {/* Tendances de marché */}
-      <MarketTrends monthlyData={monthlyData} sectorDistribution={sectorDistribution} />
+      {/* Tendances de marché avec sync */}
+      <MarketTrends 
+        monthlyData={monthlyData} 
+        sectorDistribution={sectorDistribution} 
+        isLoading={isSyncing}
+        lastSync={lastGlobalSync}
+      />
 
       {/* Répartition par secteur */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

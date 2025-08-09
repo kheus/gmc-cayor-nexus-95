@@ -2,14 +2,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, AreaChart, Area } from "recharts"
-import { TrendingUp, TrendingDown, BarChart3, Target, Globe } from "lucide-react"
+import { TrendingUp, TrendingDown, BarChart3, Target, Globe, Activity, Clock } from "lucide-react"
 
 interface MarketTrendsProps {
   monthlyData: any[]
   sectorDistribution: any[]
+  isLoading?: boolean
+  lastSync?: Date | null
 }
 
-export function MarketTrends({ monthlyData, sectorDistribution }: MarketTrendsProps) {
+export function MarketTrends({ monthlyData, sectorDistribution, isLoading = false, lastSync }: MarketTrendsProps) {
   const marketInsights = [
     {
       title: "Tendance Immobilier",
@@ -46,9 +48,17 @@ export function MarketTrends({ monthlyData, sectorDistribution }: MarketTrendsPr
       {/* Tendances du marché */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <BarChart3 className="h-5 w-5 text-blue-600" />
-            Tendances du Marché
+          <CardTitle className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <BarChart3 className="h-5 w-5 text-blue-600" />
+              Tendances du Marché
+            </div>
+            {isLoading && <Activity className="h-4 w-4 animate-pulse text-blue-500" />}
+            {lastSync && !isLoading && (
+              <Badge variant="outline" className="text-xs">
+                Données: {lastSync.toLocaleTimeString('fr-FR')}
+              </Badge>
+            )}
           </CardTitle>
         </CardHeader>
         <CardContent>

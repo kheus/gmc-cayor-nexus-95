@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { TrendingUp, TrendingDown, DollarSign, Users, Target, Calendar } from "lucide-react"
+import { TrendingUp, TrendingDown, DollarSign, Users, Target, Calendar, Activity } from "lucide-react"
 
 interface ExecutiveSummaryProps {
   totalRevenue: number
@@ -11,6 +11,8 @@ interface ExecutiveSummaryProps {
   monthlyTarget: number
   targetProgress: number
   currentMonth: string
+  isLoading?: boolean
+  lastSync?: Date | null
 }
 
 export function ExecutiveSummary({
@@ -20,7 +22,9 @@ export function ExecutiveSummary({
   clientGrowth,
   monthlyTarget,
   targetProgress,
-  currentMonth
+  currentMonth,
+  isLoading = false,
+  lastSync
 }: ExecutiveSummaryProps) {
   const formatCurrency = (amount: number) => {
     if (amount >= 1000000) {
@@ -34,9 +38,17 @@ export function ExecutiveSummary({
       {/* Résumé financier */}
       <Card className="lg:col-span-2">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <DollarSign className="h-5 w-5 text-green-600" />
-            Résumé Financier - {currentMonth}
+          <CardTitle className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <DollarSign className="h-5 w-5 text-green-600" />
+              Résumé Financier - {currentMonth}
+            </div>
+            {isLoading && <Activity className="h-4 w-4 animate-pulse text-blue-500" />}
+            {lastSync && !isLoading && (
+              <Badge variant="outline" className="text-xs">
+                Sync: {lastSync.toLocaleTimeString('fr-FR')}
+              </Badge>
+            )}
           </CardTitle>
         </CardHeader>
         <CardContent>
