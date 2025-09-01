@@ -120,26 +120,26 @@ export default function Maintenance() {
   }
 
   return (
-    <div className="flex flex-col gap-6 p-6">
+    <div className="flex flex-col gap-4 sm:gap-6 p-3 sm:p-6">
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold text-primary">Gestion de la Maintenance</h1>
-        <p className="text-muted-foreground">Suivi des interventions et réparations</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-primary">Gestion de la Maintenance</h1>
+        <p className="text-sm sm:text-base text-muted-foreground">Suivi des interventions et réparations</p>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="search">Rechercher</Label>
+      <div className="flex flex-col gap-3 sm:gap-4">{/* Recherche et filtres sur mobile */}
+        <div className="gmc-form-grid">
+          <div className="space-y-1.5 sm:space-y-2">
+            <Label htmlFor="search" className="text-xs sm:text-sm">Rechercher</Label>
             <Input
               id="search"
               placeholder="Propriété, description..."
-              className="w-full sm:w-64"
+              className="gmc-input-focus text-sm"
             />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="status">Statut</Label>
+          <div className="space-y-1.5 sm:space-y-2">
+            <Label htmlFor="status" className="text-xs sm:text-sm">Statut</Label>
             <Select>
-              <SelectTrigger className="w-full sm:w-40">
+              <SelectTrigger className="text-sm">
                 <SelectValue placeholder="Tous" />
               </SelectTrigger>
               <SelectContent>
@@ -152,37 +152,44 @@ export default function Maintenance() {
           </div>
         </div>
 
+        {/* Bouton d'ajout optimisé mobile */}
+
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
-            <Button>
+            <Button className="w-full sm:w-auto gmc-button-primary">
               <Plus className="mr-2 h-4 w-4" />
-              Nouvelle Intervention
+              <span className="hidden xs:inline">Nouvelle Intervention</span>
+              <span className="xs:hidden">Nouvelle</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>🧰 Formulaire de Maintenance</DialogTitle>
-              <DialogDescription>
+          <DialogContent className="gmc-dialog-mobile">
+            <DialogHeader className="space-y-2">
+              <DialogTitle className="text-lg sm:text-xl">🧰 Formulaire de Maintenance</DialogTitle>
+              <DialogDescription className="text-sm">
                 Déclarer ou suivre un besoin de réparation
               </DialogDescription>
             </DialogHeader>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="gmc-dialog-content">
                 
                 {/* Section Bien concerné */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">🏘️ Bien concerné</h3>
+                <div className="gmc-form-section">
+                  <h3 className="text-base sm:text-lg font-semibold">🏘️ Bien concerné</h3>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="gmc-form-grid">
                      <FormField
                        control={form.control}
                        name="propriete_id"
                        render={({ field }) => (
                          <FormItem>
-                           <FormLabel>ID de la propriété (optionnel)</FormLabel>
-                           <FormControl>
-                             <Input placeholder="Ex: 12345678-1234-1234-1234-123456789012" {...field} />
-                           </FormControl>
+                            <FormLabel className="text-sm">ID de la propriété (optionnel)</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="Ex: 12345..." 
+                                className="gmc-input-focus text-sm" 
+                                {...field} 
+                              />
+                            </FormControl>
                            <FormMessage />
                          </FormItem>
                        )}
@@ -193,10 +200,15 @@ export default function Maintenance() {
                        name="cout_intervention"
                        render={({ field }) => (
                          <FormItem>
-                           <FormLabel>Coût d'intervention (FCFA)</FormLabel>
-                           <FormControl>
-                             <Input type="number" placeholder="50000" {...field} />
-                           </FormControl>
+                            <FormLabel className="text-sm">Coût d'intervention (FCFA)</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="number" 
+                                placeholder="50000" 
+                                className="gmc-input-focus text-sm" 
+                                {...field} 
+                              />
+                            </FormControl>
                            <FormMessage />
                          </FormItem>
                        )}
@@ -205,19 +217,23 @@ export default function Maintenance() {
                 </div>
 
                 {/* Section Locataire concerné */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">🧑‍💼 Locataire concerné (optionnel)</h3>
+                <div className="gmc-form-section">
+                  <h3 className="text-base sm:text-lg font-semibold">🧑‍💼 Locataire concerné (optionnel)</h3>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="gmc-form-grid-full">
                      <FormField
                        control={form.control}
                        name="client_id"
                        render={({ field }) => (
                          <FormItem>
-                           <FormLabel>ID du client (optionnel)</FormLabel>
-                           <FormControl>
-                             <Input placeholder="Ex: 12345678-1234-1234-1234-123456789012" {...field} />
-                           </FormControl>
+                            <FormLabel className="text-sm">ID du client (optionnel)</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="Ex: 12345..." 
+                                className="gmc-input-focus text-sm" 
+                                {...field} 
+                              />
+                            </FormControl>
                            <FormMessage />
                          </FormItem>
                        )}
@@ -226,16 +242,16 @@ export default function Maintenance() {
                 </div>
 
                 {/* Section Détails du problème */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">🛠️ Détails du problème</h3>
+                <div className="gmc-form-section">
+                  <h3 className="text-base sm:text-lg font-semibold">🛠️ Détails du problème</h3>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="gmc-form-grid">
                     <FormField
                       control={form.control}
                       name="type_panne"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Type de panne</FormLabel>
+                          <FormLabel className="text-sm">Type de panne</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>
@@ -260,7 +276,7 @@ export default function Maintenance() {
                       name="urgence"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Urgence</FormLabel>
+                          <FormLabel className="text-sm">Urgence</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>
@@ -284,9 +300,14 @@ export default function Maintenance() {
                     name="description_probleme"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Description du problème</FormLabel>
+                        <FormLabel className="text-sm">Description du problème</FormLabel>
                         <FormControl>
-                          <Textarea placeholder="Description détaillée du problème rencontré" rows={3} {...field} />
+                          <Textarea 
+                            placeholder="Description détaillée du problème rencontré" 
+                            rows={3} 
+                            className="gmc-input-focus text-sm resize-none" 
+                            {...field} 
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -295,18 +316,22 @@ export default function Maintenance() {
                 </div>
 
                 {/* Section Planification */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">📅 Planification</h3>
+                <div className="gmc-form-section">
+                  <h3 className="text-base sm:text-lg font-semibold">📅 Planification</h3>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="gmc-form-grid">
                     <FormField
                       control={form.control}
                       name="technicien_affecte"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Technicien affecté</FormLabel>
+                          <FormLabel className="text-sm">Technicien affecté</FormLabel>
                           <FormControl>
-                            <Input placeholder="Moussa Plombier" {...field} />
+                            <Input 
+                              placeholder="Moussa Plombier" 
+                              className="gmc-input-focus text-sm" 
+                              {...field} 
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -318,7 +343,7 @@ export default function Maintenance() {
                       name="statut"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Statut</FormLabel>
+                          <FormLabel className="text-sm">Statut</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>
@@ -342,9 +367,13 @@ export default function Maintenance() {
                     name="date_intervention"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Date d'intervention</FormLabel>
+                        <FormLabel className="text-sm">Date d'intervention</FormLabel>
                         <FormControl>
-                          <Input type="date" {...field} />
+                          <Input 
+                            type="date" 
+                            className="gmc-input-focus text-sm" 
+                            {...field} 
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -353,29 +382,40 @@ export default function Maintenance() {
                 </div>
 
                 {/* Section Pièce jointe */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">📎 Pièce jointe</h3>
+                <div className="gmc-form-section">
+                  <h3 className="text-base sm:text-lg font-semibold">📎 Pièce jointe</h3>
                   
                    <FormField
                      control={form.control}
                      name="photo_probleme_url"
                      render={({ field }) => (
                        <FormItem>
-                         <FormLabel>Photo / vidéo du problème</FormLabel>
-                         <FormControl>
-                           <Input placeholder="URL de la photo" {...field} />
-                         </FormControl>
+                          <FormLabel className="text-sm">Photo / vidéo du problème</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="URL de la photo" 
+                              className="gmc-input-focus text-sm" 
+                              {...field} 
+                            />
+                          </FormControl>
                          <FormMessage />
                        </FormItem>
                      )}
                    />
                 </div>
                 
-                <div className="flex justify-end gap-2 pt-4">
-                  <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>
+                <div className="gmc-form-actions">
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={() => setIsOpen(false)}
+                    className="text-sm"
+                  >
                     Annuler
                   </Button>
-                  <Button type="submit">Créer l'intervention</Button>
+                  <Button type="submit" className="gmc-button-primary text-sm">
+                    Créer l'intervention
+                  </Button>
                 </div>
               </form>
             </Form>
@@ -383,44 +423,60 @@ export default function Maintenance() {
         </Dialog>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Interventions de Maintenance</CardTitle>
-          <CardDescription>
+      <Card className="gmc-card-elevated">
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="text-lg sm:text-xl">Interventions de Maintenance</CardTitle>
+          <CardDescription className="text-sm">
             {maintenanceItems.length} intervention(s) enregistrée(s)
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           {loading ? (
             <div className="flex justify-center items-center py-8">
-              <p>Chargement des interventions...</p>
+              <p className="text-sm">Chargement des interventions...</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <Table>
+            <div className="gmc-table-container">
+              <Table className="gmc-table-mobile">
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Bien</TableHead>
-                    <TableHead>Locataire</TableHead>
-                    <TableHead>Type de panne</TableHead>
-                    <TableHead>Urgence</TableHead>
-                    <TableHead>Technicien</TableHead>
-                    <TableHead>Date intervention</TableHead>
-                    <TableHead>Statut</TableHead>
-                    <TableHead>Actions</TableHead>
+                    <TableHead className="gmc-table-cell text-xs sm:text-sm">Bien</TableHead>
+                    <TableHead className="gmc-table-cell text-xs sm:text-sm hidden sm:table-cell">Locataire</TableHead>
+                    <TableHead className="gmc-table-cell text-xs sm:text-sm">Type</TableHead>
+                    <TableHead className="gmc-table-cell text-xs sm:text-sm">Urgence</TableHead>
+                    <TableHead className="gmc-table-cell text-xs sm:text-sm hidden md:table-cell">Technicien</TableHead>
+                    <TableHead className="gmc-table-cell text-xs sm:text-sm hidden lg:table-cell">Date</TableHead>
+                    <TableHead className="gmc-table-cell text-xs sm:text-sm">Statut</TableHead>
+                    <TableHead className="gmc-table-cell text-xs sm:text-sm">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                  {maintenanceItems.map((item) => (
-                   <TableRow key={item.id}>
-                     <TableCell className="font-medium">{item.propriete_id || "Non défini"}</TableCell>
-                     <TableCell>{item.client_id || "Non renseigné"}</TableCell>
-                     <TableCell>{item.type_panne}</TableCell>
-                     <TableCell>{getUrgencyBadge(item.urgence)}</TableCell>
-                      <TableCell>{item.technicien_affecte}</TableCell>
-                      <TableCell>{item.date_intervention ? new Date(item.date_intervention).toLocaleDateString() : "À définir"}</TableCell>
-                      <TableCell>{getStatusBadge(item.statut)}</TableCell>
-                      <TableCell>
+                   <TableRow key={item.id} className="hover:bg-muted/30 transition-colors">
+                     <TableCell className="gmc-table-cell font-medium text-xs sm:text-sm">
+                       <div className="truncate max-w-[100px] sm:max-w-[150px]">
+                         {item.propriete_id?.slice(0, 8) || "Non défini"}...
+                       </div>
+                     </TableCell>
+                     <TableCell className="gmc-table-cell text-xs sm:text-sm hidden sm:table-cell">
+                       <div className="truncate max-w-[120px]">
+                         {item.client_id?.slice(0, 8) || "Non renseigné"}...
+                       </div>
+                     </TableCell>
+                     <TableCell className="gmc-table-cell text-xs sm:text-sm">
+                       <span className="capitalize">{item.type_panne}</span>
+                     </TableCell>
+                     <TableCell className="gmc-table-cell">{getUrgencyBadge(item.urgence)}</TableCell>
+                      <TableCell className="gmc-table-cell text-xs sm:text-sm hidden md:table-cell">
+                        <div className="truncate max-w-[100px]">
+                          {item.technicien_affecte || "Non assigné"}
+                        </div>
+                      </TableCell>
+                      <TableCell className="gmc-table-cell text-xs sm:text-sm hidden lg:table-cell">
+                        {item.date_intervention ? new Date(item.date_intervention).toLocaleDateString() : "À définir"}
+                      </TableCell>
+                      <TableCell className="gmc-table-cell">{getStatusBadge(item.statut)}</TableCell>
+                      <TableCell className="gmc-table-cell">
                         <div className="flex gap-2">
                           <Button 
                             variant="outline" 

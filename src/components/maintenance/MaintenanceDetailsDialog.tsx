@@ -63,48 +63,48 @@ export function MaintenanceDetailsDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Wrench className="h-5 w-5" />
+      <DialogContent className="gmc-dialog-mobile">
+        <DialogHeader className="space-y-2">
+          <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl">
+            <Wrench className="h-4 w-4 sm:h-5 sm:w-5" />
             Détails de l'Intervention
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-sm">
             Informations complètes de l'intervention #{maintenance.id?.slice(0, 8)}...
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6">
+        <div className="gmc-dialog-content">
           {/* Informations générales */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+          <Card className="gmc-card-mobile">
+            <CardHeader className="p-3 sm:p-4">
+              <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
                 <User className="h-4 w-4" />
                 Informations Générales
               </CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <CardContent className="gmc-form-grid p-3 sm:p-4 pt-0">
               <div>
-                <Label className="text-sm font-medium text-muted-foreground">Type de Panne</Label>
-                <p className="text-lg font-semibold capitalize">{maintenance.type_panne}</p>
+                <Label className="text-xs sm:text-sm font-medium text-muted-foreground">Type de Panne</Label>
+                <p className="text-base sm:text-lg font-semibold capitalize">{maintenance.type_panne}</p>
               </div>
               
               <div>
-                <Label className="text-sm font-medium text-muted-foreground">Urgence</Label>
+                <Label className="text-xs sm:text-sm font-medium text-muted-foreground">Urgence</Label>
                 <div className="mt-1">
-                  <Badge className={getUrgencyColor(maintenance.urgence)}>
+                  <Badge className={`${getUrgencyColor(maintenance.urgence)} text-xs`}>
                     <AlertTriangle className="h-3 w-3 mr-1" />
                     {maintenance.urgence}
                   </Badge>
                 </div>
               </div>
               
-              <div>
-                <Label className="text-sm font-medium text-muted-foreground">Statut</Label>
-                <div className="mt-1 flex items-center gap-2">
+              <div className="col-span-full">
+                <Label className="text-xs sm:text-sm font-medium text-muted-foreground">Statut</Label>
+                <div className="mt-1 flex items-center gap-2 flex-wrap">
                   {!isEditingStatus ? (
                     <>
-                      <Badge className={getStatusColor(maintenance.statut)}>
+                      <Badge className={`${getStatusColor(maintenance.statut)} text-xs`}>
                         {maintenance.statut}
                       </Badge>
                       <Button 
@@ -114,14 +114,15 @@ export function MaintenanceDetailsDialog({
                           setIsEditingStatus(true)
                           setTempStatus(maintenance.statut)
                         }}
+                        className="h-6 w-6 p-0"
                       >
                         <Edit className="h-3 w-3" />
                       </Button>
                     </>
                   ) : (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <Select value={tempStatus} onValueChange={setTempStatus}>
-                        <SelectTrigger className="w-32">
+                        <SelectTrigger className="w-24 sm:w-32 text-xs">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -130,13 +131,14 @@ export function MaintenanceDetailsDialog({
                           <SelectItem value="termine">Terminé</SelectItem>
                         </SelectContent>
                       </Select>
-                      <Button size="sm" onClick={handleStatusUpdate}>
+                      <Button size="sm" onClick={handleStatusUpdate} className="text-xs h-7">
                         OK
                       </Button>
                       <Button 
                         variant="ghost" 
                         size="sm" 
                         onClick={() => setIsEditingStatus(false)}
+                        className="text-xs h-7"
                       >
                         Annuler
                       </Button>
@@ -145,32 +147,32 @@ export function MaintenanceDetailsDialog({
                 </div>
               </div>
               
-              <div>
-                <Label className="text-sm font-medium text-muted-foreground">Technicien Affecté</Label>
-                <p className="font-medium">{maintenance.technicien_affecte || "Non assigné"}</p>
+              <div className="col-span-full">
+                <Label className="text-xs sm:text-sm font-medium text-muted-foreground">Technicien Affecté</Label>
+                <p className="font-medium text-sm sm:text-base">{maintenance.technicien_affecte || "Non assigné"}</p>
               </div>
             </CardContent>
           </Card>
 
           {/* Identifiants */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+          <Card className="gmc-card-mobile">
+            <CardHeader className="p-3 sm:p-4">
+              <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
                 <FileText className="h-4 w-4" />
                 Références
               </CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <CardContent className="gmc-form-grid p-3 sm:p-4 pt-0">
               <div>
-                <Label className="text-sm font-medium text-muted-foreground">Propriété ID</Label>
-                <p className="font-mono bg-muted px-2 py-1 rounded text-sm">
+                <Label className="text-xs sm:text-sm font-medium text-muted-foreground">Propriété ID</Label>
+                <p className="font-mono bg-muted px-2 py-1 rounded text-xs sm:text-sm break-all">
                   {maintenance.propriete_id || "Non renseigné"}
                 </p>
               </div>
               
               <div>
-                <Label className="text-sm font-medium text-muted-foreground">Client ID</Label>
-                <p className="font-mono bg-muted px-2 py-1 rounded text-sm">
+                <Label className="text-xs sm:text-sm font-medium text-muted-foreground">Client ID</Label>
+                <p className="font-mono bg-muted px-2 py-1 rounded text-xs sm:text-sm break-all">
                   {maintenance.client_id || "Non renseigné"}
                 </p>
               </div>
@@ -178,31 +180,31 @@ export function MaintenanceDetailsDialog({
           </Card>
 
           {/* Coût et dates */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+          <Card className="gmc-card-mobile">
+            <CardHeader className="p-3 sm:p-4">
+              <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
                 <Calendar className="h-4 w-4" />
                 Planification et Coût
               </CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <Label className="text-sm font-medium text-muted-foreground">Coût d'Intervention</Label>
-                <p className="text-xl font-bold text-green-600">
+            <CardContent className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 p-3 sm:p-4 pt-0">
+              <div className="sm:col-span-3 md:col-span-1">
+                <Label className="text-xs sm:text-sm font-medium text-muted-foreground">Coût d'Intervention</Label>
+                <p className="text-lg sm:text-xl font-bold text-gmc-success">
                   {maintenance.cout_intervention?.toLocaleString() || "0"} FCFA
                 </p>
               </div>
               
               <div>
-                <Label className="text-sm font-medium text-muted-foreground">Date d'Intervention</Label>
-                <p className="font-medium">
+                <Label className="text-xs sm:text-sm font-medium text-muted-foreground">Date d'Intervention</Label>
+                <p className="font-medium text-sm sm:text-base">
                   {maintenance.date_intervention ? formatDate(maintenance.date_intervention) : "À définir"}
                 </p>
               </div>
               
               <div>
-                <Label className="text-sm font-medium text-muted-foreground">Date de Demande</Label>
-                <p className="font-medium">
+                <Label className="text-xs sm:text-sm font-medium text-muted-foreground">Date de Demande</Label>
+                <p className="font-medium text-sm sm:text-base">
                   {maintenance.date_demande ? formatDate(maintenance.date_demande) : "N/A"}
                 </p>
               </div>
@@ -211,15 +213,15 @@ export function MaintenanceDetailsDialog({
 
           {/* Description du problème */}
           {maintenance.description_probleme && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+            <Card className="gmc-card-mobile">
+              <CardHeader className="p-3 sm:p-4">
+                <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
                   <FileText className="h-4 w-4" />
                   Description du Problème
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-sm leading-relaxed bg-muted p-3 rounded">
+              <CardContent className="p-3 sm:p-4 pt-0">
+                <p className="text-xs sm:text-sm leading-relaxed bg-muted p-3 rounded">
                   {maintenance.description_probleme || "Aucune description fournie"}
                 </p>
               </CardContent>
@@ -228,22 +230,22 @@ export function MaintenanceDetailsDialog({
 
           {/* Photo du problème */}
           {maintenance.photo_probleme_url && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+            <Card className="gmc-card-mobile">
+              <CardHeader className="p-3 sm:p-4">
+                <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
                   <FileText className="h-4 w-4" />
                   Documentation Visuelle
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-3 sm:p-4 pt-0">
                 <div>
-                  <Label className="text-sm font-medium text-muted-foreground">Photo/Vidéo du problème</Label>
+                  <Label className="text-xs sm:text-sm font-medium text-muted-foreground">Photo/Vidéo du problème</Label>
                   <div className="mt-2">
                     <a 
                       href={maintenance.photo_probleme_url} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline"
+                      className="text-gmc-primary hover:underline text-sm break-all"
                     >
                       Voir le fichier
                     </a>
@@ -256,19 +258,19 @@ export function MaintenanceDetailsDialog({
           <Separator />
           
           {/* Actions */}
-          <div className="flex justify-between">
-            <div className="text-sm text-muted-foreground">
+          <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-4">
+            <div className="text-xs sm:text-sm text-muted-foreground">
               Intervention créée le {formatDate(maintenance.created_at || new Date().toISOString())}
             </div>
             
-            <div className="flex gap-2">
-              <Button variant="outline">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+              <Button variant="outline" className="text-xs sm:text-sm h-8 sm:h-9">
                 Générer Rapport
               </Button>
-              <Button variant="outline">
+              <Button variant="outline" className="text-xs sm:text-sm h-8 sm:h-9">
                 Modifier
               </Button>
-              <Button>
+              <Button className="gmc-button-primary text-xs sm:text-sm h-8 sm:h-9">
                 Clôturer
               </Button>
             </div>
