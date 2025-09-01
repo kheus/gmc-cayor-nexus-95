@@ -59,10 +59,18 @@ export default {
 				gmc: {
 					primary: 'hsl(var(--gmc-primary))',
 					'primary-light': 'hsl(var(--gmc-primary-light))',
+					'primary-soft': 'hsl(var(--gmc-primary-soft))',
+					secondary: 'hsl(var(--gmc-secondary))',
 					success: 'hsl(var(--gmc-success))',
+					'success-light': 'hsl(var(--gmc-success-light))',
+					warning: 'hsl(var(--gmc-warning))',
+					'warning-light': 'hsl(var(--gmc-warning-light))',
 					danger: 'hsl(var(--gmc-danger))',
+					'danger-light': 'hsl(var(--gmc-danger-light))',
 					background: 'hsl(var(--gmc-background))',
 					surface: 'hsl(var(--gmc-surface))',
+					'surface-elevated': 'hsl(var(--gmc-surface-elevated))',
+					'surface-soft': 'hsl(var(--gmc-surface-soft))',
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',

@@ -30,19 +30,19 @@ export function ClientDetailsDialog({
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "actif": return "bg-green-100 text-green-800"
-      case "inactif": return "bg-gray-100 text-gray-800"
-      case "suspendu": return "bg-red-100 text-red-800"
-      default: return "bg-blue-100 text-blue-800"
+      case "actif": return "bg-gmc-success-light text-gmc-success border border-gmc-success/20"
+      case "inactif": return "bg-muted text-muted-foreground border border-border"
+      case "suspendu": return "bg-gmc-danger-light text-gmc-danger border border-gmc-danger/20"
+      default: return "bg-gmc-primary-soft text-gmc-primary border border-gmc-primary/20"
     }
   }
 
   const getSecteurColor = (secteur: string) => {
     switch (secteur) {
-      case "immobilier": return "bg-blue-100 text-blue-800"
-      case "voyage": return "bg-green-100 text-green-800"
-      case "assurance": return "bg-purple-100 text-purple-800"
-      default: return "bg-gray-100 text-gray-800"
+      case "immobilier": return "bg-gmc-primary-soft text-gmc-primary border border-gmc-primary/20"
+      case "voyage": return "bg-gmc-success-light text-gmc-success border border-gmc-success/20"
+      case "assurance": return "bg-purple-50 text-purple-700 border border-purple-200"
+      default: return "bg-muted text-muted-foreground border border-border"
     }
   }
 
@@ -63,7 +63,7 @@ export function ClientDetailsDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto gmc-card-elevated">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <User className="h-5 w-5" />
@@ -76,10 +76,10 @@ export function ClientDetailsDialog({
 
         <div className="space-y-6">
           {/* Informations personnelles */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <User className="h-4 w-4" />
+          <Card className="gmc-card-elevated border-border/30">
+            <CardHeader className="bg-gradient-to-r from-gmc-primary-soft/30 to-transparent rounded-t-xl">
+              <CardTitle className="flex items-center gap-3 text-gmc-primary">
+                <User className="h-5 w-5" />
                 Informations Personnelles
               </CardTitle>
             </CardHeader>
@@ -168,10 +168,10 @@ export function ClientDetailsDialog({
           </Card>
 
           {/* Adresse */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
+          <Card className="gmc-card-elevated border-border/30">
+            <CardHeader className="bg-gradient-to-r from-blue-50/50 to-transparent rounded-t-xl">
+              <CardTitle className="flex items-center gap-3 text-blue-700">
+                <MapPin className="h-5 w-5" />
                 Localisation
               </CardTitle>
             </CardHeader>
@@ -191,10 +191,10 @@ export function ClientDetailsDialog({
           </Card>
 
           {/* Secteurs d'activité */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-4 w-4" />
+          <Card className="gmc-card-elevated border-border/30">
+            <CardHeader className="bg-gradient-to-r from-emerald-50/50 to-transparent rounded-t-xl">
+              <CardTitle className="flex items-center gap-3 text-emerald-700">
+                <FileText className="h-5 w-5" />
                 Secteurs d'Activité
               </CardTitle>
             </CardHeader>

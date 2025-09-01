@@ -8,27 +8,37 @@
 
 @layer base {
   :root {
-    /* GMC Brand Colors - Professional palette */
-    --gmc-primary: 220 85% 25%;          /* Blue foncé professionnel */
-    --gmc-primary-light: 220 75% 45%;    /* Blue accentué */
-    --gmc-secondary: 215 20% 25%;        /* Gris bleuté sombre */
-    --gmc-success: 142 76% 36%;          /* Vert émeraude moderne */
-    --gmc-warning: 38 92% 50%;           /* Amber professionnel */
-    --gmc-danger: 348 83% 47%;           /* Rouge moderne */
-    --gmc-background: 210 20% 98%;       /* Off-white subtil */
-    --gmc-surface: 0 0% 100%;            /* Blanc pur */
-    --gmc-surface-elevated: 210 30% 96%; /* Surface élevée */
+    /* GMC Brand Colors - Premium Professional Palette */
+    --gmc-primary: 221 87% 26%;          /* Deep Sophisticated Blue */
+    --gmc-primary-light: 221 78% 48%;    /* Elegant Accent Blue */
+    --gmc-primary-soft: 221 35% 85%;     /* Ultra-light Blue for subtle backgrounds */
+    --gmc-secondary: 216 22% 22%;        /* Rich Charcoal */
+    --gmc-success: 144 78% 35%;          /* Premium Emerald */
+    --gmc-success-light: 144 65% 85%;    /* Soft Success Background */
+    --gmc-warning: 37 94% 52%;           /* Professional Amber */
+    --gmc-warning-light: 37 85% 90%;     /* Soft Warning Background */
+    --gmc-danger: 349 85% 45%;           /* Refined Crimson */
+    --gmc-danger-light: 349 75% 92%;     /* Soft Error Background */
+    --gmc-background: 210 25% 97%;       /* Premium Off-white */
+    --gmc-surface: 0 0% 100%;            /* Pure White */
+    --gmc-surface-elevated: 210 35% 94%; /* Elevated Surface with depth */
+    --gmc-surface-soft: 210 30% 96%;     /* Gentle Surface variation */
     
-    /* Gradients professionnels */
+    /* Professional Gradients with Enhanced Depth */
     --gmc-gradient-primary: linear-gradient(135deg, hsl(var(--gmc-primary)) 0%, hsl(var(--gmc-primary-light)) 100%);
-    --gmc-gradient-success: linear-gradient(135deg, hsl(var(--gmc-success)) 0%, hsl(142 76% 46%) 100%);
+    --gmc-gradient-primary-soft: linear-gradient(135deg, hsl(var(--gmc-primary-soft)) 0%, hsl(var(--gmc-surface)) 100%);
+    --gmc-gradient-success: linear-gradient(135deg, hsl(var(--gmc-success)) 0%, hsl(144 78% 45%) 100%);
     --gmc-gradient-surface: linear-gradient(180deg, hsl(var(--gmc-surface)) 0%, hsl(var(--gmc-surface-elevated)) 100%);
+    --gmc-gradient-surface-glass: linear-gradient(135deg, hsl(var(--gmc-surface) / 0.9) 0%, hsl(var(--gmc-surface-elevated) / 0.7) 100%);
+    --gmc-gradient-overlay: linear-gradient(180deg, transparent 0%, hsl(var(--gmc-primary) / 0.05) 100%);
     
-    /* Shadows élégantes */
-    --gmc-shadow-sm: 0 1px 2px 0 hsl(var(--gmc-primary) / 0.05);
-    --gmc-shadow-md: 0 4px 6px -1px hsl(var(--gmc-primary) / 0.1), 0 2px 4px -1px hsl(var(--gmc-primary) / 0.06);
-    --gmc-shadow-lg: 0 10px 15px -3px hsl(var(--gmc-primary) / 0.1), 0 4px 6px -2px hsl(var(--gmc-primary) / 0.05);
-    --gmc-shadow-xl: 0 20px 25px -5px hsl(var(--gmc-primary) / 0.1), 0 10px 10px -5px hsl(var(--gmc-primary) / 0.04);
+    /* Premium Shadow System */
+    --gmc-shadow-sm: 0 1px 3px 0 hsl(var(--gmc-primary) / 0.06), 0 1px 2px 0 hsl(var(--gmc-primary) / 0.04);
+    --gmc-shadow-md: 0 4px 8px -2px hsl(var(--gmc-primary) / 0.1), 0 2px 4px -1px hsl(var(--gmc-primary) / 0.06);
+    --gmc-shadow-lg: 0 12px 20px -4px hsl(var(--gmc-primary) / 0.12), 0 4px 8px -2px hsl(var(--gmc-primary) / 0.06);
+    --gmc-shadow-xl: 0 25px 35px -8px hsl(var(--gmc-primary) / 0.15), 0 10px 15px -3px hsl(var(--gmc-primary) / 0.08);
+    --gmc-shadow-glass: 0 8px 32px 0 hsl(var(--gmc-primary) / 0.1), 0 1px 3px 0 hsl(var(--gmc-primary) / 0.05);
+    --gmc-shadow-floating: 0 20px 40px -8px hsl(var(--gmc-primary) / 0.2), 0 8px 16px -4px hsl(var(--gmc-primary) / 0.1);
     
     /* System Colors - Enhanced for professionalism */
     --background: 210 20% 98%;          /* Off-white très subtil */
@@ -130,8 +140,14 @@
 /* GMC Custom Components - Professional Enhancement avec Mobile First */
 @layer components {
   .gmc-stat-card {
-    @apply bg-card border border-border rounded-lg p-3 sm:p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5;
+    @apply bg-card border border-border/40 rounded-xl p-4 sm:p-6 transition-all duration-300 hover:-translate-y-1 cursor-pointer;
     background: var(--gmc-gradient-surface);
+    box-shadow: var(--gmc-shadow-md);
+  }
+  
+  .gmc-stat-card:hover {
+    box-shadow: var(--gmc-shadow-lg);
+    transform: translateY(-4px) scale(1.02);
   }
   
   .gmc-nav-item {
@@ -161,14 +177,21 @@
   }
   
   .gmc-header {
-    @apply bg-card/95 backdrop-blur-sm border-b border-border;
-    box-shadow: var(--gmc-shadow-sm);
+    @apply bg-card/90 backdrop-blur-lg border-b border-border/20;
+    box-shadow: var(--gmc-shadow-glass);
+    background: var(--gmc-gradient-surface-glass);
   }
   
   .gmc-card-elevated {
-    @apply bg-card rounded-lg sm:rounded-xl border border-border/50;
-    box-shadow: var(--gmc-shadow-md);
-    background: var(--gmc-gradient-surface);
+    @apply bg-card rounded-xl border border-border/30 backdrop-blur-sm;
+    box-shadow: var(--gmc-shadow-glass);
+    background: var(--gmc-gradient-surface-glass);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .gmc-card-elevated:hover {
+    box-shadow: var(--gmc-shadow-floating);
+    transform: translateY(-2px);
   }
   
   .gmc-form-section {
@@ -185,11 +208,14 @@
     @apply focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200;
   }
 
-  /* MOBILE FIRST - Modals responsives */
+  /* MOBILE FIRST - Modals Premium */
   .gmc-dialog-mobile {
-    @apply w-full max-w-full mx-2 sm:mx-auto sm:max-w-lg md:max-w-2xl lg:max-w-4xl;
-    max-height: calc(100vh - 2rem);
-    @apply overflow-y-auto;
+    @apply w-full max-w-full mx-3 sm:mx-auto sm:max-w-lg md:max-w-3xl lg:max-w-5xl;
+    max-height: calc(100vh - 3rem);
+    @apply overflow-y-auto rounded-2xl border border-border/20;
+    box-shadow: var(--gmc-shadow-floating);
+    background: var(--gmc-gradient-surface-glass);
+    backdrop-filter: blur(20px);
   }
   
   .gmc-dialog-content {
@@ -251,5 +277,27 @@
   
   .gmc-icon-md {
     @apply h-5 w-5 sm:h-6 sm:w-6;
+  }
+  
+  /* Animations fluides pour interactions */
+  .gmc-transition-smooth {
+    @apply transition-all duration-300 cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .gmc-hover-lift {
+    @apply gmc-transition-smooth hover:-translate-y-1 hover:shadow-lg;
+  }
+  
+  .gmc-hover-scale {
+    @apply gmc-transition-smooth hover:scale-105 hover:shadow-md;
+  }
+  
+  /* Effets glass et blur pour modernité */
+  .gmc-glass {
+    @apply bg-card/80 backdrop-blur-lg border border-border/20;
+  }
+  
+  .gmc-glass-strong {
+    @apply bg-card/90 backdrop-blur-xl border border-border/30;
   }
 }
