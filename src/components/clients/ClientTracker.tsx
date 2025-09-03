@@ -101,7 +101,7 @@ export function ClientTracker() {
     return stats
   }, [clients, followUps])
 
-  // Clients filtrés avec statut de suivi
+  // Clients filtrés avec statut de suivi - FILTRE PAR SECTEUR POUR LE MODULE COURANT
   const filteredClients = useMemo(() => {
     const followUpMap = new Map(followUps.map(f => [f.client_id, f]))
     
