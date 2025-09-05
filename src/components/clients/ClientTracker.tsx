@@ -143,20 +143,20 @@ export function ClientTracker() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'actif': return 'bg-green-100 text-green-800'
-      case 'prospect': return 'bg-blue-100 text-blue-800'
-      case 'a_relancer': return 'bg-yellow-100 text-yellow-800'
-      case 'inactif': return 'bg-gray-100 text-gray-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case 'actif': return 'bg-success/10 text-success border-success/20'
+      case 'prospect': return 'bg-primary/10 text-primary border-primary/20'
+      case 'a_relancer': return 'bg-warning/10 text-warning border-warning/20'
+      case 'inactif': return 'bg-muted/50 text-muted-foreground border-border'
+      default: return 'bg-muted/50 text-muted-foreground border-border'
     }
   }
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'bg-red-100 text-red-800'
-      case 'medium': return 'bg-yellow-100 text-yellow-800'
-      case 'low': return 'bg-green-100 text-green-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case 'high': return 'bg-destructive/10 text-destructive border-destructive/20'
+      case 'medium': return 'bg-warning/10 text-warning border-warning/20'
+      case 'low': return 'bg-success/10 text-success border-success/20'
+      default: return 'bg-muted/50 text-muted-foreground border-border'
     }
   }
 
@@ -226,68 +226,6 @@ export function ClientTracker() {
 
   return (
     <div className="space-y-6">
-      {/* En-tête avec statistiques */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <Users className="h-4 w-4 text-blue-600" />
-              <div>
-                <p className="text-sm font-medium">Total Clients</p>
-                <p className="text-2xl font-bold">{clientStats.total}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <UserCheck className="h-4 w-4 text-green-600" />
-              <div>
-                <p className="text-sm font-medium">Clients Actifs</p>
-                <p className="text-2xl font-bold">{clientStats.actifs}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <UserPlus className="h-4 w-4 text-blue-600" />
-              <div>
-                <p className="text-sm font-medium">Prospects</p>
-                <p className="text-2xl font-bold">{clientStats.prospects}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <AlertTriangle className="h-4 w-4 text-yellow-600" />
-              <div>
-                <p className="text-sm font-medium">À Relancer</p>
-                <p className="text-2xl font-bold">{clientStats.aRelancer}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <Clock className="h-4 w-4 text-red-600" />
-              <div>
-                <p className="text-sm font-medium">À Contacter</p>
-                <p className="text-2xl font-bold">{clientsToFollow.length}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
 
       {/* Onglets principaux */}
       <Tabs value={selectedTab} onValueChange={setSelectedTab}>
@@ -299,30 +237,33 @@ export function ClientTracker() {
           <TabsTrigger value="templates">Modèles</TabsTrigger>
         </TabsList>
 
-        {/* Filtres */}
-        <div className="flex flex-col md:flex-row gap-4 mb-6">
-          <div className="flex-1">
-            <Input
-              placeholder="Rechercher un client..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full"
-            />
+        {/* Actions & Filtres */}
+        <div className="flex flex-col lg:flex-row gap-4 mb-6">
+          <div className="flex-1 flex flex-col sm:flex-row gap-4">
+            <div className="flex-1">
+              <Input
+                placeholder="Rechercher un client..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="h-10"
+              />
+            </div>
+            <Select value={selectedSector} onValueChange={setSelectedSector}>
+              <SelectTrigger className="w-full sm:w-48 h-10">
+                <Filter className="w-4 h-4 mr-2" />
+                <SelectValue placeholder="Tous les secteurs" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tous les secteurs</SelectItem>
+                <SelectItem value="immobilier">Immobilier</SelectItem>
+                <SelectItem value="voyage">Voyage</SelectItem>
+                <SelectItem value="assurance">Assurance</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          <Select value={selectedSector} onValueChange={setSelectedSector}>
-            <SelectTrigger className="w-full md:w-48">
-              <SelectValue placeholder="Tous les secteurs" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Tous les secteurs</SelectItem>
-              <SelectItem value="immobilier">Immobilier</SelectItem>
-              <SelectItem value="voyage">Voyage</SelectItem>
-              <SelectItem value="assurance">Assurance</SelectItem>
-            </SelectContent>
-          </Select>
           <Dialog open={isCommDialogOpen} onOpenChange={setIsCommDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="whitespace-nowrap">
+              <Button className="h-10 whitespace-nowrap bg-gradient-primary hover:bg-gradient-primary-hover">
                 <Send className="h-4 w-4 mr-2" />
                 Nouvelle Communication
               </Button>
@@ -425,48 +366,58 @@ export function ClientTracker() {
         <TabsContent value="overview" className="space-y-4">
           <div className="grid gap-4">
             {filteredClients.map(client => (
-              <Card key={client.id}>
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
+              <Card key={client.id} className="hover:shadow-elegant transition-all duration-300 border-border/50">
+                <CardContent className="p-6">
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                     <div className="flex-1">
-                      <div className="flex items-center space-x-3">
-                        <div>
-                          <h3 className="font-semibold">{client.prenom} {client.nom}</h3>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-foreground text-lg">{client.prenom} {client.nom}</h3>
                           <p className="text-sm text-muted-foreground">{client.email} • {client.telephone}</p>
                         </div>
-                        <Badge className={getStatusColor(client.trackingStatus)}>
-                          {client.trackingStatus === 'actif' ? 'Actif' :
-                           client.trackingStatus === 'prospect' ? 'Prospect' :
-                           client.trackingStatus === 'a_relancer' ? 'À relancer' : 'Inactif'}
-                        </Badge>
-                        {client.followUp?.priority && (
-                          <Badge className={getPriorityColor(client.followUp.priority)}>
-                            {client.followUp.priority === 'high' ? 'Haute' :
-                             client.followUp.priority === 'medium' ? 'Moyenne' : 'Basse'}
+                        <div className="flex flex-wrap gap-2">
+                          <Badge className={`${getStatusColor(client.trackingStatus)} border`}>
+                            {client.trackingStatus === 'actif' ? 'Actif' :
+                             client.trackingStatus === 'prospect' ? 'Prospect' :
+                             client.trackingStatus === 'a_relancer' ? 'À relancer' : 'Inactif'}
                           </Badge>
-                        )}
+                          {client.followUp?.priority && (
+                            <Badge className={`${getPriorityColor(client.followUp.priority)} border`}>
+                              {client.followUp.priority === 'high' ? 'Haute' :
+                               client.followUp.priority === 'medium' ? 'Moyenne' : 'Basse'}
+                            </Badge>
+                          )}
+                        </div>
                       </div>
-                      <div className="mt-2 flex flex-wrap gap-1">
+                      <div className="mt-3 flex flex-wrap gap-2">
                         {client.secteurs.map(secteur => (
-                          <Badge key={secteur} variant="outline" className="text-xs">
+                          <Badge key={secteur} variant="outline" className="text-xs bg-secondary/50">
                             {secteur}
                           </Badge>
                         ))}
                       </div>
                       {client.followUp?.notes && (
-                        <p className="mt-2 text-sm text-muted-foreground">{client.followUp.notes}</p>
+                        <div className="mt-3 p-3 bg-muted/30 rounded-lg">
+                          <p className="text-sm text-muted-foreground">{client.followUp.notes}</p>
+                        </div>
                       )}
                     </div>
-                    <div className="text-right">
+                    <div className="text-right space-y-2">
                       {client.followUp?.last_contact && (
-                        <p className="text-sm text-muted-foreground">
-                          Dernier contact: {format(new Date(client.followUp.last_contact), 'dd MMM yyyy', { locale: fr })}
-                        </p>
+                        <div className="text-sm text-muted-foreground">
+                          <span className="font-medium">Dernier contact:</span>
+                          <br />
+                          {format(new Date(client.followUp.last_contact), 'dd MMM yyyy', { locale: fr })}
+                        </div>
                       )}
                       {client.followUp?.next_contact && (
-                        <p className="text-sm font-medium">
-                          Prochain contact: {format(new Date(client.followUp.next_contact), 'dd MMM yyyy', { locale: fr })}
-                        </p>
+                        <div className="text-sm">
+                          <span className="font-medium text-foreground">Prochain contact:</span>
+                          <br />
+                          <span className="text-primary font-medium">
+                            {format(new Date(client.followUp.next_contact), 'dd MMM yyyy', { locale: fr })}
+                          </span>
+                        </div>
                       )}
                       <div className="mt-2 flex space-x-2">
                         <Button size="sm" variant="outline" onClick={() => {
