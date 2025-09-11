@@ -228,7 +228,7 @@ export interface ClientFollowUp extends BaseGMCEntity {
   client_id: string
   last_contact: string
   next_contact?: string
-  contact_type: 'email' | 'sms' | 'phone' | 'meeting'
+  contact_type: 'email' | 'sms' | 'whatsapp' | 'phone' | 'meeting'
   notes?: string
   status: 'prospect' | 'actif' | 'a_relancer' | 'inactif'
   priority: 'low' | 'medium' | 'high'
@@ -237,7 +237,7 @@ export interface ClientFollowUp extends BaseGMCEntity {
 export interface CommunicationTemplate {
   id: string
   name: string
-  type: 'email' | 'sms'
+  type: 'email' | 'sms' | 'whatsapp'
   subject?: string // pour les emails
   content: string
   sector?: 'immobilier' | 'voyage' | 'assurance' | 'general'
@@ -246,7 +246,7 @@ export interface CommunicationTemplate {
 
 export interface CommunicationLog extends BaseGMCEntity {
   client_id: string
-  type: 'email' | 'sms' | 'phone' | 'meeting'
+  type: 'email' | 'sms' | 'whatsapp' | 'phone' | 'meeting'
   subject?: string
   content?: string
   sent_at: string

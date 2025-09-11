@@ -194,6 +194,47 @@ export function useClientFollowUp() {
     }
   }
 
+  // Envoyer un WhatsApp via l'API
+  const sendWhatsApp = async (
+    clientId: string,
+    clientPhone: string,
+    message: string,
+    clientName?: string
+  ) => {
+    try {
+      // Créer l'URL WhatsApp Business ou utiliser l'API WhatsApp Business
+      const whatsappUrl = `https://wa.me/${clientPhone.replace(/[^\d]/g, '')}?text=${encodeURIComponent(message)}`
+      
+      // Ouvrir WhatsApp dans un nouvel onglet
+      window.open(whatsappUrl, '_blank')
+      
+      // Enregistrer le log de communication
+      const communicationData = {
+        client_id: clientId,
+        type: 'whatsapp' as any,
+        content: message,
+        sent_at: new Date().toISOString(),
+        status: 'sent' as const
+      }
+      
+      await logCommunication(communicationData)
+      
+      toast({
+        title: "WhatsApp ouvert",
+        description: "Message préparé dans WhatsApp"
+      })
+      
+      return { success: true }
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Erreur WhatsApp",
+        description: "Impossible d'ouvrir WhatsApp"
+      })
+      return { success: false, error }
+    }
+  }
+
   // Envoyer un email/SMS via les edge functions Supabase
   const sendCommunication = async (
     clientId: string,
@@ -301,6 +342,7 @@ export function useClientFollowUp() {
     addTemplate,
     logCommunication,
     sendCommunication,
+    sendWhatsApp,
     refetch: () => {
       fetchFollowUps()
       fetchTemplates()

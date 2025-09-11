@@ -41,6 +41,7 @@ export function ClientTracker() {
     loading: followUpLoading,
     updateFollowUp,
     sendCommunication,
+    sendWhatsApp,
     addTemplate 
   } = useClientFollowUp()
   
@@ -49,7 +50,7 @@ export function ClientTracker() {
   const [selectedSector, setSelectedSector] = useState<string>('all')
   const [newCommunication, setNewCommunication] = useState({
     clientId: '',
-    type: 'email' as 'email' | 'sms',
+    type: 'email' as 'email' | 'sms' | 'whatsapp',
     subject: '',
     content: '',
     templateId: ''
@@ -163,12 +164,29 @@ export function ClientTracker() {
   const handleSendCommunication = async () => {
     if (!newCommunication.clientId || !newCommunication.content) return
 
-    const result = await sendCommunication(
-      newCommunication.clientId,
-      newCommunication.type,
-      newCommunication.content,
-      newCommunication.subject
-    )
+    const client = clients.find(c => c.id === newCommunication.clientId)
+    if (!client) return
+
+    let result;
+    
+    if (newCommunication.type === 'whatsapp') {
+      result = await sendWhatsApp(
+        newCommunication.clientId,
+        client.telephone,
+        newCommunication.content,
+        `${client.prenom} ${client.nom}`
+      )
+    } else {
+      result = await sendCommunication(
+        newCommunication.clientId,
+        newCommunication.type as 'email' | 'sms',
+        newCommunication.content,
+        newCommunication.subject,
+        `${client.prenom} ${client.nom}`,
+        client.email,
+        client.telephone
+      )
+    }
 
     if (result.success) {
       setNewCommunication({
@@ -296,7 +314,7 @@ export function ClientTracker() {
                   </div>
                   <div>
                     <Label>Type</Label>
-                    <Select value={newCommunication.type} onValueChange={(value: 'email' | 'sms') => 
+                    <Select value={newCommunication.type} onValueChange={(value: 'email' | 'sms' | 'whatsapp') => 
                       setNewCommunication(prev => ({ ...prev, type: value }))
                     }>
                       <SelectTrigger>
@@ -305,6 +323,7 @@ export function ClientTracker() {
                       <SelectContent>
                         <SelectItem value="email">Email</SelectItem>
                         <SelectItem value="sms">SMS</SelectItem>
+                        <SelectItem value="whatsapp">WhatsApp</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -336,6 +355,14 @@ export function ClientTracker() {
                       onChange={(e) => setNewCommunication(prev => ({ ...prev, subject: e.target.value }))}
                       placeholder="Sujet de l'email"
                     />
+                  </div>
+                )}
+
+                {newCommunication.type === 'whatsapp' && (
+                  <div className="p-3 bg-success/10 text-success rounded-lg border border-success/20">
+                    <p className="text-sm">
+                      💬 Le message sera préparé dans WhatsApp. Assurez-vous que le client a WhatsApp installé.
+                    </p>
                   </div>
                 )}
 
@@ -565,7 +592,7 @@ export function ClientTracker() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label>Type</Label>
-                      <Select value={newTemplate.type} onValueChange={(value: 'email' | 'sms') => 
+                      <Select value={newTemplate.type} onValueChange={(value: 'email' | 'sms' | 'whatsapp') => 
                         setNewTemplate(prev => ({ ...prev, type: value }))
                       }>
                         <SelectTrigger>
@@ -574,6 +601,7 @@ export function ClientTracker() {
                         <SelectContent>
                           <SelectItem value="email">Email</SelectItem>
                           <SelectItem value="sms">SMS</SelectItem>
+                          <SelectItem value="whatsapp">WhatsApp</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -635,7 +663,7 @@ export function ClientTracker() {
                       <div className="flex items-center space-x-2">
                         <h3 className="font-semibold">{template.name}</h3>
                         <Badge variant="outline">
-                          {template.type === 'email' ? 'Email' : 'SMS'}
+                          {template.type === 'email' ? 'Email' : template.type === 'sms' ? 'SMS' : 'WhatsApp'}
                         </Badge>
                         {template.sector && (
                           <Badge variant="secondary">{template.sector}</Badge>

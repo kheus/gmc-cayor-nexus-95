@@ -1,8 +1,26 @@
 import { ClientTracker } from '@/components/clients/ClientTracker'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Users, UserCheck, UserPlus, AlertTriangle, Clock, TrendingUp } from 'lucide-react'
+import { useClients } from '@/hooks/useClients'
+import { useClientFollowUp } from '@/hooks/useClientFollowUp'
+import { useMemo } from 'react'
 
 export default function ClientTrackerPage() {
+  const { clients } = useClients()
+  const { followUps } = useClientFollowUp()
+
+  // Calculer les statistiques réelles
+  const stats = useMemo(() => {
+    return {
+      total: clients.length,
+      actifs: followUps.filter(f => f.status === 'actif').length,
+      prospects: followUps.filter(f => f.status === 'prospect').length,
+      relancer: followUps.filter(f => f.status === 'a_relancer').length,
+      contacter: followUps.filter(f => {
+        return f.next_contact && new Date(f.next_contact) <= new Date()
+      }).length
+    }
+  }, [clients, followUps])
   return (
     <div className="p-6 space-y-6">
       {/* Header Section */}
@@ -30,7 +48,7 @@ export default function ClientTrackerPage() {
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Total Clients</p>
-                <p className="text-2xl font-bold text-foreground">-</p>
+                <p className="text-2xl font-bold text-foreground">{stats.total}</p>
               </div>
             </div>
           </CardContent>
@@ -44,7 +62,7 @@ export default function ClientTrackerPage() {
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Actifs</p>
-                <p className="text-2xl font-bold text-foreground">-</p>
+                <p className="text-2xl font-bold text-foreground">{stats.actifs}</p>
               </div>
             </div>
           </CardContent>
@@ -58,7 +76,7 @@ export default function ClientTrackerPage() {
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Prospects</p>
-                <p className="text-2xl font-bold text-foreground">-</p>
+                <p className="text-2xl font-bold text-foreground">{stats.prospects}</p>
               </div>
             </div>
           </CardContent>
@@ -72,7 +90,7 @@ export default function ClientTrackerPage() {
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">À Relancer</p>
-                <p className="text-2xl font-bold text-foreground">-</p>
+                <p className="text-2xl font-bold text-foreground">{stats.relancer}</p>
               </div>
             </div>
           </CardContent>
@@ -86,7 +104,7 @@ export default function ClientTrackerPage() {
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground">À Contacter</p>
-                <p className="text-2xl font-bold text-foreground">-</p>
+                <p className="text-2xl font-bold text-foreground">{stats.contacter}</p>
               </div>
             </div>
           </CardContent>
