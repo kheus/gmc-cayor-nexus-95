@@ -22,6 +22,7 @@ import {
   UserPlus, 
   Mail, 
   MessageSquare, 
+  MessageCircle,
   Phone,
   Calendar as CalendarIcon,
   Filter,
@@ -60,7 +61,7 @@ export function ClientTracker() {
   const [isTemplateDialogOpen, setIsTemplateDialogOpen] = useState(false)
   const [newTemplate, setNewTemplate] = useState({
     name: '',
-    type: 'email' as 'email' | 'sms',
+    type: 'email' as 'email' | 'sms' | 'whatsapp',
     subject: '',
     content: '',
     sector: 'general' as string,
@@ -458,6 +459,12 @@ export function ClientTracker() {
                           setIsCommDialogOpen(true)
                         }}>
                           <MessageSquare className="h-3 w-3" />
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={() => {
+                          setNewCommunication(prev => ({ ...prev, clientId: client.id, type: 'whatsapp' }))
+                          setIsCommDialogOpen(true)
+                        }}>
+                          <MessageCircle className="h-3 w-3" />
                         </Button>
                       </div>
                     </div>
