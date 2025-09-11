@@ -65,36 +65,7 @@ export default function ImmobilierDashboard() {
     { name: 'Générer Rapport', icon: FileText, color: 'bg-orange-500' }
   ]
 
-  // Données pour notifications
-  const notifications = [
-    {
-      id: 1,
-      type: 'warning' as const,
-      title: 'Contrats expirent bientôt',
-      message: '3 contrats de location expirent dans les 30 prochains jours',
-      time: 'Il y a 1h',
-      urgent: true,
-      icon: AlertTriangle
-    },
-    {
-      id: 2,
-      type: 'info' as const,
-      title: 'Rapport mensuel disponible',
-      message: 'Le rapport de performance de Juin est maintenant disponible',
-      time: 'Il y a 3h',
-      urgent: false,
-      icon: FileText
-    },
-    {
-      id: 3,
-      type: 'success' as const,
-      title: 'Objectif atteint',
-      message: 'Objectif de collecte de loyers atteint à 95%',
-      time: 'Hier',
-      urgent: false,
-      icon: CheckCircle
-    }
-  ]
+  // Les notifications sont maintenant gérées par le hook useNotifications
 
   // Données pour événements
   const upcomingEvents = [
@@ -240,7 +211,7 @@ export default function ImmobilierDashboard() {
           {/* Actions rapides et notifications */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <QuickActions actions={quickActions} />
-            <NotificationsPanel notifications={notifications} />
+            <NotificationsPanel />
             <UpcomingEvents events={upcomingEvents} />
           </div>
 

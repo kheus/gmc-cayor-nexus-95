@@ -67,36 +67,7 @@ export default function InsuranceDashboard() {
     { name: 'Générer Rapport', icon: FileText, color: 'bg-orange-500' }
   ]
 
-  // Données pour notifications
-  const notifications = [
-    {
-      id: 1,
-      type: 'warning' as const,
-      title: 'Contrats expirent bientôt',
-      message: `${expiringContracts} contrats d'assurance expirent dans les 30 prochains jours`,
-      time: 'Il y a 1h',
-      urgent: true,
-      icon: AlertTriangle
-    },
-    {
-      id: 2,
-      type: 'info' as const,
-      title: 'Nouvelles offres',
-      message: '3 nouvelles polices d\'assurance disponibles',
-      time: 'Il y a 3h',
-      urgent: false,
-      icon: Shield
-    },
-    {
-      id: 3,
-      type: 'success' as const,
-      title: 'Objectif primes',
-      message: 'Objectif de collecte de primes atteint à 92%',
-      time: 'Hier',
-      urgent: false,
-      icon: CheckCircle
-    }
-  ]
+  // Les notifications sont maintenant gérées par le hook useNotifications
 
   // Données pour événements
   const upcomingEvents = [
@@ -243,7 +214,7 @@ export default function InsuranceDashboard() {
           {/* Actions rapides et notifications */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <QuickActions actions={quickActions} />
-            <NotificationsPanel notifications={notifications} />
+            <NotificationsPanel />
             <UpcomingEvents events={upcomingEvents} />
           </div>
 
